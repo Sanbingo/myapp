@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Dialog, Text} from '@rneui/themed';
 import {connect} from 'react-redux';
-import {addTodo} from './datasource/actions';
+import {addTodo, fetchData} from './datasource/actions';
 
 class ListScreen extends React.Component {
   constructor(props) {
@@ -17,10 +17,9 @@ class ListScreen extends React.Component {
     });
   };
   renderList = () => {
-    const {todos = []} = this.props;
-    return todos
-      .filter(item => item.text)
-      .map(item => <Text>{item.text}</Text>);
+    console.warn('state list', this.props.list?.length);
+    const {list = []} = this.props;
+    return list.map(item => <Text>{item.API}</Text>);
   };
   render() {
     return (
@@ -29,6 +28,10 @@ class ListScreen extends React.Component {
           {this.props?.route?.params?.name}
         </Button>
         <Button onPress={() => this.props?.add('hello world')}>Add</Button>
+        <Button onPress={() => this.props?.fetchData('hello world')}>
+          Fetch
+        </Button>
+
         {this.renderList()}
         <Dialog
           isVisible={this.state.visible}
@@ -44,11 +47,13 @@ function mapStateToProps(state) {
   return {
     todos: state.todos,
     visibilityFilter: state.visibilityFilter,
+    list: state.list,
   };
 }
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     add: val => dispatch(addTodo(val)),
+    fetchData: val => dispatch(fetchData(val)),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ListScreen);

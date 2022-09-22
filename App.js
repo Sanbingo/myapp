@@ -28,11 +28,15 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import {Provider} from 'react-redux';
 import todoApp from './src/datasource/reducers';
+import mySaga from './src/datasource/sagas';
 
-let store = createStore(todoApp);
+const sagaMiddleware = createSagaMiddleware();
+let store = createStore(todoApp, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(mySaga);
 
 const Stack = createNativeStackNavigator();
 

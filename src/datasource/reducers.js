@@ -4,6 +4,7 @@ import {
   COMPLETE_TODO,
   SET_VISIBILITY_FILTER,
   VisibilityFilters,
+  USER_FETCH_SUCCEEDED,
 } from './actions';
 const {SHOW_ALL} = VisibilityFilters;
 
@@ -38,10 +39,19 @@ function todos(state = [], action) {
       return state;
   }
 }
+function list(state = [], action) {
+  switch (action.type) {
+    case USER_FETCH_SUCCEEDED:
+      return [...state, ...action.user];
+    default:
+      return state;
+  }
+}
 //通过combineReducers将多个reducer合并成一个rootReducer
 const todoApp = combineReducers({
   visibilityFilter,
   todos,
+  list,
 });
 
 export default todoApp;
