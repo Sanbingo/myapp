@@ -9,6 +9,7 @@
 import React from 'react';
 import {Button, Dialog} from '@rneui/themed';
 import ListScreen from './src/list';
+import Hello from './src/components/hello';
 import {
   SafeAreaView,
   ScrollView,
@@ -80,6 +81,11 @@ const HomeScreen = ({navigation}) => {
         title="Go to List screen"
         onPress={() => navigation.navigate('List', {name: 'List'})}
       />
+      <Button
+        color="secondary"
+        title="Go to Hello screen"
+        onPress={() => navigation.navigate('Hello', {name: 'List'})}
+      />
     </>
   );
 };
@@ -91,6 +97,14 @@ const ProfileScreen = ({navigation, route}) => {
   );
 };
 
+const HelloScreen = ({navigation, route}) => {
+  return (
+    <>
+      <Hello name="sanbingo" />
+    </>
+  )
+}
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -101,16 +115,16 @@ const App: () => Node = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-        >
-          <Stack.Screen name="List" component={ListScreen} />
-          <Stack.Screen
+        <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={{title: 'Welcome'}}
           />
+          <Stack.Screen name="List" component={ListScreen} />
+          
           <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Hello" component={HelloScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
